@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/hero.svg" alt="Echo — rotating brain of memory nodes" width="100%"/>
+<img src="docs/hero.svg" alt="Echo — rotating brain of memory nodes" width="240"/>
 
 # Echo
 
@@ -8,7 +8,7 @@
 
 A personal **memory MCP server** + **3D brain dashboard** with hover-dwell gestures, voice-to-save, and a chat-preview replay of how every memory was born.
 
-[**Live demo →**](https://echo-Waleee7.vercel.app) &nbsp;·&nbsp; [**MCP server**](#the-mcp-server) &nbsp;·&nbsp; [**Architecture**](#architecture) &nbsp;·&nbsp; [**Roadmap**](#roadmap)
+[**Live demo →**](https://echo-ruby-omega.vercel.app) &nbsp;·&nbsp; [**MCP server**](#the-mcp-server) &nbsp;·&nbsp; [**Architecture**](#architecture) &nbsp;·&nbsp; [**Roadmap**](#roadmap)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-4FC3FF.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/version-v0.2.0-FFD080.svg)](#roadmap)
@@ -76,7 +76,7 @@ Then in any Claude session: *"save a memory that I prefer dark mode"* — Echo's
 
 ## Demo mode (for the hosted version)
 
-The live deploy at [echo-Waleee7.vercel.app](https://echo-Waleee7.vercel.app) runs with `NEXT_PUBLIC_DEMO_MODE=true`. Every visitor gets their **own** browser-local brain, seeded with one welcome memory. No backend, no DB, no leaks between users. Clone the repo to run the full MCP-backed version on your own machine.
+The live deploy at [echo-Waleee7.vercel.app](https://echo-ruby-omega.vercel.app) runs with `NEXT_PUBLIC_DEMO_MODE=true`. Every visitor gets their **own** browser-local brain, seeded with one welcome memory. No backend, no DB, no leaks between users. Clone the repo to run the full MCP-backed version on your own machine.
 
 ## The MCP server
 
