@@ -7,8 +7,8 @@
 }
 
 html, body {
-  background: #1a1a1a;
-  color: #f5f0e6;
+  background: #050b14;
+  color: #cfe7ff;
   font-family: Inter, system-ui, -apple-system, sans-serif;
   min-height: 100vh;
 }
@@ -18,10 +18,44 @@ html, body {
 }
 
 .glow-text {
-  text-shadow: 0 0 18px rgba(255, 169, 64, 0.45);
+  text-shadow: 0 0 18px rgba(79, 195, 255, 0.55);
 }
 
 .amber-line {
-  background: linear-gradient(90deg, transparent, #FFA940, transparent);
+  background: linear-gradient(90deg, transparent, #4FC3FF, transparent);
   height: 1px;
+}
+
+@keyframes jarvis-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 195, 255, 0.55); }
+  50%      { box-shadow: 0 0 22px 6px rgba(79, 195, 255, 0.0); }
+}
+
+.pulse-ring {
+  animation: jarvis-pulse 1.6s ease-out infinite;
+}
+
+/* Subtle HUD scanlines — barely visible horizontal bands that drift slowly. */
+.hud-scanlines {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(79, 195, 255, 0.025) 0px,
+    rgba(79, 195, 255, 0.025) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  background-size: 100% 3px;
+  animation: hud-scan-drift 16s linear infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes hud-scan-drift {
+  from { background-position: 0 0; }
+  to   { background-position: 0 60px; }
+}
+
+/* Sweeping highlight along the top header — barely-there shimmer */
+@keyframes header-sweep {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }

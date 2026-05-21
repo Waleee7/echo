@@ -47,5 +47,42 @@ export function summarize(m: Memory): MemorySummary {
     tags: m.tags,
     updatedAt: m.provenance.updatedAt,
     freshness: computeFreshness(m.provenance.updatedAt),
+    relatedIds: m.relatedIds,
+    hasChat: Boolean(m.chat?.preview),
   };
+}
+
+export function slugify(input: string): string {
+  return input
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60);
+}
+
+export async function writeMemory(memory: Memory): Promise<void> {
+  await fs.mkdir(MEMORIES_DIR, { recursive: true });
+  const filePath = path.join(MEMORIES_DIR, `${memory.id}.json`);
+  await fs.writeFile(filePath, JSON.stringify(memory, null, 2), "utf-8");
+}
+
+export async function deleteMemory(id: string): Promise<boolean> {
+  const filePath = path.join(MEMORIES_DIR, `${id}.json`);
+  try {
+    await fs.unlink(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function memoryExists(id: string): Promise<boolean> {
+  const filePath = path.join(MEMORIES_DIR, `${id}.json`);
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
 }

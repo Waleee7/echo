@@ -8,17 +8,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Echo palette — pulled from the brain reference image
+        // Jarvis palette — Iron Man HUD blue
+        // (class names kept as `charcoal-*` and `amber-*` for code stability;
+        //  values redefined to Jarvis blue/black scheme)
         charcoal: {
-          900: "#1a1a1a",
-          800: "#222222",
-          700: "#2a2a2a",
-          600: "#333333",
+          900: "#050b14",
+          800: "#0a1626",
+          700: "#0f2238",
+          600: "#163150",
         },
         amber: {
-          glow: "#FFD27A",
-          core: "#FFA940",
-          deep: "#B86E18",
+          glow: "#9DDCFF",
+          core: "#4FC3FF",
+          deep: "#1E7BCC",
         },
       },
       fontFamily: {
