@@ -17,6 +17,9 @@ A personal **memory MCP server** + **3D brain dashboard** with hover-dwell gestu
 
 </div>
 
+<p align="center"><img src="docs/screenshot-dashboard.jpg" alt="Echo dashboard in demo mode: a 3D brain of memory points with the seeded welcome memory focused, the memory list on the right with its detail panel, and the seven brain-region chips along the bottom" width="100%"></p>
+<p align="center"><sub>Demo mode, local production build, 2026-11-17, with the seeded welcome memory selected.</sub></p>
+
 ---
 
 ## Why Echo exists
@@ -41,7 +44,7 @@ The pitch isn't "look at my memory dashboard." The pitch is **"this is what my A
 ## How it works in 30 seconds
 
 1. Echo runs as an **MCP server**, exposing five tools to Claude: `save_memory`, `recall`, `search`, `list_by_category`, `forget`.
-2. Each memory is a **plain JSON file** in `~/.echo/memories/`, with provenance, freshness score (30-day half-life), and an optional chat transcript.
+2. Each memory is a **plain JSON file** in `~/.echo/memories/` (or `$ECHO_DIR/memories/` when `ECHO_DIR` is set), with provenance, freshness score (30-day half-life), and an optional chat transcript.
 3. The **Next.js dashboard** reads the same files and renders them as a 3D brain. Or — in deployed demo mode — uses your browser's `localStorage` so every visitor gets their own fresh brain.
 
 ```mermaid
@@ -74,15 +77,19 @@ cd ../dashboard && npm install && npm run dev
 
 Then in any Claude session: *"save a memory that I prefer dark mode"* — Echo's tools light up, the dashboard's brain grows a new dot.
 
-## Demo mode (for the hosted version)
+## Demo mode (for a hosted version)
 
-The live deploy at [echo-Waleee7.vercel.app](https://echo-ruby-omega.vercel.app) runs with `NEXT_PUBLIC_DEMO_MODE=true`. Every visitor gets their **own** browser-local brain, seeded with one welcome memory. No backend, no DB, no leaks between users. Clone the repo to run the full MCP-backed version on your own machine.
+Build the dashboard with `NEXT_PUBLIC_DEMO_MODE=true` and it needs no backend: every visitor gets their **own** browser-local brain in `localStorage`, seeded with one welcome memory, and nothing is shared between visitors. Without the flag, the dashboard reads and writes the same memory files as the MCP server, which is the full version for your own machine.
+
+```bash
+cd dashboard && NEXT_PUBLIC_DEMO_MODE=true npm run build && npx next start
+```
 
 ## The MCP server
 
 | Tool | Signature | What it does |
 |------|-----------|--------------|
-| `save_memory` | `(title, body, category, tags?, related_ids?, source?)` | Create or update by id (slugified from title). |
+| `save_memory` | `(id, title, body, category, tags?, relatedIds?, source?, sessionId?)` | Create a memory, or update it if the id exists. The id is a stable kebab-case slug. |
 | `recall` | `(id)` | Pull the full body of one memory. |
 | `search` | `(query, limit?)` | Free-text rank across title + body + tags. |
 | `list_by_category` | `(category?)` | List memories, optionally filtered, sorted by freshness. |
@@ -125,6 +132,17 @@ Click the **◐ drag** pill at the top of the brain for the full list. Highlight
 | Vision | MediaPipe Tasks Vision — hand landmarker, browser-local |
 | Voice | Web Speech API — speech recognition, continuous mode |
 
+## Tests and builds
+
+There is no automated test suite yet. Checked on 2026-11-17:
+
+- **Builds:** `npm run build` passes in `server/` (`tsc`) and in `dashboard/` (`next build`, including its type check).
+- **MCP smoke test:** 8 of 8 checks passed over stdio against a scratch `ECHO_DIR`: the server initializes, `tools/list` returns the five tools, `save_memory`, `recall`, `search`, `list_by_category` and `forget` each work on a new memory, and a recall after `forget` finds nothing. The smoke script is not in the repo yet.
+
+## Status
+
+v0.2.0. Vercel deploys `main` to [echo-ruby-omega.vercel.app](https://echo-ruby-omega.vercel.app). That build was made without `NEXT_PUBLIC_DEMO_MODE=true`, so on 2026-11-17 it opened with an empty brain rather than the demo above; rebuilding it with the flag restores the demo. The MCP server runs locally over stdio and is the memory behind its author's own assistant.
+
 ## Roadmap
 
 - **v0.1** — MCP server, 5 tools, brain dashboard, hand tracking ✅
@@ -140,7 +158,7 @@ Memories aren't recordings — they're echoes. They get louder when they matter 
 
 ## Acknowledgments
 
-Built solo over a few sprints by **[@Waleee7](https://github.com/Waleee7)** after the Anthropic hackathon left the hangover energy in full effect. Pair-programmed with **Sage** (a Claude-powered assistant configured for hype-homie energy + brutal honesty) — who lives inside Echo and uses it to remember everything across sessions.
+Built solo over a few sprints by **[Akinwale Dare](https://github.com/Waleee7)** (@Waleee7) after the Anthropic hackathon left the hangover energy in full effect. Pair-programmed with **Sage** (a Claude-powered assistant configured for hype-homie energy + brutal honesty) — who lives inside Echo and uses it to remember everything across sessions.
 
 ## License
 
